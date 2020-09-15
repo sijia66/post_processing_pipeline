@@ -1,0 +1,6 @@
+.ipynb_checkpoints/sync_dev-checkpoint.ipynb
+.ipynb_checkpoints/plot_pipe_in_dot-checkpoint.ipynb
+.ipynb_checkpoints/dot_examples-checkpoint.ipynb
+.ipynb_checkpoints
+*.pdf
+*.gv
