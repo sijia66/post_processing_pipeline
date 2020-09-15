@@ -4,6 +4,7 @@
 TO-DO
 - test the frame def
 1. how to save a frame in a db! 
+2. how to use a factory  dsgn pat and gen module frm other sources
 """
 
 class PipeModule():
@@ -11,12 +12,31 @@ class PipeModule():
     input_dims = ()
     output_dims = ()
 
+    _params_name_ordered = ()
+    _params_val_dict = dict()
+
     def __init__(self):
         pass
     
+    def check_ordered_args_exist(self, params_name):
+        unlisted_args = list()
+        for name_ordered in self._params_name_ordered: 
+            if  name_ordered not in params_name:
+                unlisted_args.append(name_ordered)
+        
+        return (True, None) if len(unlisted_args) == 0 else (False, unlisted_args)
+
+    
+    def assign_params_value(self,params_dict):
+        #assign ordered param val
+        self._params_val_dict = params_dict
+
     def run_mod(self):
         #all functions will nd to inherit this 
         raise NotImplementedError
+
+    def get_data_xarray(self):
+        return self._da_xarray
 
 
 
