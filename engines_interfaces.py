@@ -1,10 +1,18 @@
 
+import xarray
+
 #we expect to implement the frame clas
 """
 TO-DO
 - test the frame def
 1. how to save a frame in a db! 
 2. how to use a factory  dsgn pat and gen module frm other sources
+3. a gen lnk tool to lnk two things into one th. all of the same type.  
+"""
+
+"""
+TO-TK
+- wt wd b advan t compost vs. to inheirt. no ide
 """
 
 class PipeModule():
@@ -14,6 +22,7 @@ class PipeModule():
 
     _params_name_ordered = ()
     _params_val_dict = dict()
+    #_da_xarray = xarray()
 
     def __init__(self):
         pass
@@ -38,13 +47,15 @@ class PipeModule():
     def get_data_xarray(self):
         return self._da_xarray
 
-
+"""
+TO-DO
+- nd a function to dist t frames
+- nd a function to cal input A output dims
+"""
 
 class PipeFrame():
 
-    def __init__(self, frame_input_dims = (), 
-                modules = [], module_parameters = [], 
-                frame_output_dims =(), 
+    def __init__(self, modules = [], module_parameters = dict(), 
                 **kwarg):
         """
         frame_input_dims & frame_output_dims: tuple of strings
@@ -69,12 +80,13 @@ class PipeFrame():
         #for print out
         self._frame_desc = kwarg['frame_desc'] if 'frame_desc' in kwarg.keys() else self._frame_name
 
+    
     def run_frame(self):
 
         if self._frame_mode == 'serial':
 
             for mod_i, mod in enumerate(self._modules):
-                mod.run_mod(self.self._module_params[mod_i])
+                mod.run_mod(self._module_params[mod_i])
 
         elif self._frame_mode == 'parallel':
             raise NotImplementedError
