@@ -15,6 +15,12 @@ TO-TK
 - wt wd b advan t compost vs. to inheirt. no ide
 """
 
+"""
+To-DO
+-get ordered array
+arg = [params_dict[i] for i in self._params_name_ordered]
+"""
+
 class PipeModule():
     fxn_name = ''
     input_dims = ()
@@ -62,7 +68,7 @@ class PipeFrame():
         e.g. ( 'trial', 'time')
 
         modules: (list of functions? classes  that implement the PipeModule interface)
-        module: list of dictionaries (PipeModule.name: dictionary)
+        module_parameters: list of dictionaries (PipeModule.name: dictionary)
         """
         #process frame init settings
         self._frame_input_dims = frame_input_dims
