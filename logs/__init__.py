@@ -2,10 +2,11 @@ import json
 import logging
 import logging.config
 
+#TO-DO
+#nd to write a test 
 
 
-
-def get_a_logger():
+def set_up_loging():
     '''
     log_file_path(string) : default to the same folder
     '''
@@ -13,8 +14,6 @@ def get_a_logger():
     #set the log into the dictionary
 
     logging.config.dictConfig(json_obj)
-
-    return logging.getLogger(__name__)
 
 
 config_string = '''
