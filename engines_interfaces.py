@@ -73,9 +73,17 @@ class PipeFrame():
         #frame type
         self._type = frame_type
 
+        #check if modules is not empty
+        if not modules:
+            raise Exception('Empty module list!')
+        #oherwise
+        self._modules = modules 
+        self._module_params = module_parameters
+
         #process frame init settings
-        self._frame_input_dims = frame_input_dims
-        self._frame_output_dims = frame_output_dims
+        self._frame_input_dims = self._modules[0].input_dims
+        self._frame_output_dims = self._modules[-1].input_dims
+
 
         #init the seq to process
         self._modules = modules 
