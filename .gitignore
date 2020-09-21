@@ -6,5 +6,6 @@
 *.gv
 .vscode/settings.json
 *.pyc
-python_logging.log
-classes.dot
+*.log
+*.dot
+*.png
