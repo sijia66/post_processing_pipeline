@@ -109,7 +109,7 @@ class SyncSess():
 
         if job_source.shake_hand_with(job_dest):
             #if file path exist A dest dir exists
-
+            pass
         else:
             raise Exception(f'{str(job_source)} can not shake hand with {str(job_dest)}')
         
