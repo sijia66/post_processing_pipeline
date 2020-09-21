@@ -44,5 +44,6 @@ config_string = '''
 
 '''
 if __name__ == "__main__":
-    logger = get_a_logger()
-    logger.info('Can set up the logger!')
+    set_up_loging()
+    logger = logging.getLogger(__name__)
+    logger.info('what do you think')
