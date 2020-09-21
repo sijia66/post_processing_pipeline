@@ -27,11 +27,14 @@ class PipeModule():
     output_dims = ()
 
     _params_name_ordered = ()
+    _params_name_KW = ()
     _params_val_dict = dict()
     #_da_xarray = xarray()
 
     def __init__(self):
-        pass
+        #in case we need a long time,
+        #the larger structure need to have a way to know if data is avail
+        self._data_available = False 
     
     def check_ordered_args_exist(self, params_name):
         unlisted_args = list()
@@ -55,6 +58,7 @@ class PipeModule():
 
 """
 TO-DO
+- nd a function to check if the input parameters match eh? 
 - nd a function to dist t frames
 - nd a function to cal input A output dims
 """
@@ -76,7 +80,8 @@ class PipeFrame():
         #check if modules is not empty
         if not modules:
             raise Exception('Empty module list!')
-        #oherwise
+        
+        #oherwise, just assign the modulees
         self._modules = modules 
         self._module_params = module_parameters
 
@@ -85,9 +90,6 @@ class PipeFrame():
         self._frame_output_dims = self._modules[-1].input_dims
 
 
-        #init the seq to process
-        self._modules = modules 
-        self._module_params = module_parameters
         #set up mod of operation default to serial
         self._frame_mode  = kwarg['frame_mode'] if 'frame_mode' in kwarg.keys() else 'serial'
 
@@ -96,6 +98,7 @@ class PipeFrame():
         
         #for print out
         self._frame_desc = kwarg['frame_desc'] if 'frame_desc' in kwarg.keys() else self._frame_name
+
 
     
     def run_frame(self):
