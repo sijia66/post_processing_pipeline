@@ -61,7 +61,7 @@ TO-DO
 
 class PipeFrame():
 
-    def __init__(self, modules = [], module_parameters = dict(), 
+    def __init__(self, frame_type = 'proc', modules = [], module_parameters = dict(), 
                 **kwarg):
         """
         frame_input_dims & frame_output_dims: tuple of strings
@@ -70,6 +70,9 @@ class PipeFrame():
         modules: (list of functions? classes  that implement the PipeModule interface)
         module_parameters: list of dictionaries (PipeModule.name: dictionary)
         """
+        #frame type
+        self._type = frame_type
+
         #process frame init settings
         self._frame_input_dims = frame_input_dims
         self._frame_output_dims = frame_output_dims
