@@ -134,6 +134,17 @@ class PipeFrame():
         elif self._frame_mode == 'parallel':
             raise NotImplementedError
 
+    def wrap_up_frame(self):
+        """
+        depending config, this function would
+        1. off load the intermediate parameters
+        2. notify user
+        3. note down time.
+        4. save meta data. 
+
+        """
+        pass
+
             
 
 
