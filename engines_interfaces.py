@@ -1,5 +1,5 @@
 
-import xarray
+import xarray as xr
 
 #we expect to implement the frame clas
 """
@@ -28,7 +28,8 @@ class PipeModule():
 
     _params_name_ordered = ()
     _params_name_KW = ()
-    _params_val_dict = dict()
+    _params_val_ordered_dict = dict()
+    _params_val_KW_dict = dict()
     #_da_xarray = xarray()
 
     def __init__(self):
@@ -47,14 +48,36 @@ class PipeModule():
     
     def assign_params_value(self,params_dict):
         #assign ordered param val
+        
+        #sort into argument
         self._params_val_dict = params_dict
+
+        for arg_name in self._params_name_ordered:
+            self._params_val_ordered_dict[arg_name] = params_dict[arg_name]
+
+        #assign the rest to a self.kw args
+        for arg_name in params_dict.keys():
+
+            #do not repeat arg in kwargs
+            if arg_name in self._params_name_ordered: continue
+
+            self._params_val_KW_dict[arg_name] = params_dict[arg_name]
+
+    
+
 
     def run_mod(self):
         #all functions will nd to inherit this 
+        # expect to assign this to self._data
+        self._data_available = False
         raise NotImplementedError
 
     def get_data_xarray(self):
-        return self._da_xarray
+        if self._data_available:
+            return xr.DataArray(self._data, dims = self.output_dims)
+
+        raise Exception('data is not available yet')
+
 
 """
 TO-DO
