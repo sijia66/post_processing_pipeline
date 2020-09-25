@@ -1,5 +1,9 @@
 
+#TO-DO
+#try import 
 import xarray as xr
+#
+from itertools import permutations
 
 #we expect to implement the frame clas
 """
@@ -133,6 +137,32 @@ class PipeFrame():
 
         elif self._frame_mode == 'parallel':
             raise NotImplementedError
+
+    @classmethod
+    def orient_dims(cls,xr_array:xr.DataArray, mat_dims):
+        """
+        accepts a xr_array with definitions of dims in dims.
+        xr_array (xr.DataArray):  has dims
+        mat_dims (iterable, list or tuple):  matching dimensions:
+        must be a permutated set of xr_array.dims 
+        
+        ASSUME"
+        1. assume dims small. i.e. no permutation of 
+
+        return a new xr_array 
+        """
+        #type checking
+        if not isinstance(xr_array, xr.DataArray): raise TypeError('xr_array should be a xr_array')
+
+        #checking matching dims
+        curr_dims = xr_array.dims
+        if not mat_dims in list(permutations(curr_dims)):
+            raise Exception(f'{mat_dims} is not a permutation of {curr_dims}')
+
+        return xr_array.transpose(*mat_dims)
+        
+
+
 
     def wrap_up_frame(self):
         """

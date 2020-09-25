@@ -3,7 +3,7 @@ import numpy as np
 import xarray as xr
 
 
-from engines_interfaces import PipeModule
+from engines_interfaces import PipeModule, PipeFrame
 
 class DataRelayterFor1D(PipeModule):
     """
@@ -17,7 +17,7 @@ class DataRelayterFor1D(PipeModule):
         self._da_xarray = xr.DataArray(self._params_val_dict['Data'])
 
 
-
+@pytest.mark.skip(reason = 'skip for now, i know not informative')
 class TestDataRelay():
     relay = DataRelayterFor1D()
 
@@ -30,6 +30,14 @@ class TestDataRelay():
 
         
 
+def test_orient_dims():
+    xr_array = xr.DataArray(np.zeros((2,8,9)), 
+                 dims=('TIME', 'TRIAL', 'FREQ'))
+    matching_dim = ('TRIAL', 'TIME', 'FREQ')
+    
+    orient_xr_array = PipeFrame.orient_dims(xr_array, matching_dim)
+
+    assert matching_dim == orient_xr_array.dims
 
 
 
