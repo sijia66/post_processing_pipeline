@@ -26,7 +26,7 @@ arg = [params_dict[i] for i in self._params_name_ordered]
 """
 
 class PipeModule():
-    fxn_name = ''
+    mod_name = ''
     input_dims = ()
     output_dims = ()
 
@@ -67,8 +67,6 @@ class PipeModule():
 
             self._params_val_KW_dict[arg_name] = params_dict[arg_name]
 
-    
-
 
     def run_mod(self):
         # all functions will overrite this method
@@ -97,47 +95,62 @@ TO-DO
 
 class PipeFrame():
 
-    def __init__(self, frame_type = 'proc', modules = [], module_parameters = dict(), 
+    def __init__(self, frame_type = 'proc', module = PipeModule, module_parameters = dict(), 
                 **kwarg):
         """
         frame_input_dims & frame_output_dims: tuple of strings
         e.g. ( 'trial', 'time')
 
-        modules: (list of functions? classes  that implement the PipeModule interface)
+        modules: (list of classes that inherit the PipeModule class interface)
         module_parameters: list of dictionaries (PipeModule.name: dictionary)
         """
         #frame type
         self._type = frame_type
 
+        if module is PipeModule:
+            raise Exception(f'{module} should not be PipeModule')
         #check if modules is not empty
-        if not modules:
-            raise Exception('Empty module list!')
+        if not issubclass(module, PipeModule):
+            raise Exception(f'{module} should inherit PipeModule')
         
         #oherwise, just assign the modulees
-        self._modules = modules 
+        self._module = module
         self._module_params = module_parameters
 
         #process frame init settings
-        self._frame_input_dims = self._modules[0].input_dims
-        self._frame_output_dims = self._modules[-1].input_dims
-
+        self._frame_input_dims = self._module.input_dims
+        self._frame_output_dims = self._module.output_dims
 
         #set up mod of operation default to serial
         self._frame_mode  = kwarg['frame_mode'] if 'frame_mode' in kwarg.keys() else 'serial'
 
         #set up additional info lk
-        self._frame_name = kwarg['frame_name'] if 'frame_name' in kwarg.keys() else 'a aolab proc frame'
+        self._frame_name = kwarg['frame_name'] if 'frame_name' in kwarg.keys() else 'aolab_proc_frame'
         
         #for print out
         self._frame_desc = kwarg['frame_desc'] if 'frame_desc' in kwarg.keys() else self._frame_name
 
+    def _create_instances(self):
+        """
+        depending on the needs, will create many instances of the same  PipeModule
+        """
 
     
+    def _assign_params_to_mod(self):
+        """
+        """
+        pass
+    
     def run_frame(self):
+        """
+        """
 
         if self._frame_mode == 'serial':
 
             for mod_i, mod in enumerate(self._modules):
+                #set up an instance of the class. 
+                specific_inst = 
+                
                 mod.run_mod(self._module_params[mod_i])
 
         elif self._frame_mode == 'parallel':
