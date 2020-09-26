@@ -71,14 +71,18 @@ class PipeModule():
 
 
     def run_mod(self):
-        #all functions will nd to inherit this 
-        # expect to assign this to self._data
+        # all functions will overrite this method
+        # expect to assign this to output fxn to self._output_xarray
+        # it is expecte to do these things:
+        #   run the fxn and assign the output to self._output_xarray (assume there is output)
+        #   assemble xarray with correct dimension labels. 
+
         self._data_available = False
         raise NotImplementedError
 
     def get_data_xarray(self):
         if self._data_available:
-            return xr.DataArray(self._data, dims = self.output_dims)
+            return self._output_xarray
 
         raise Exception('data is not available yet')
 
