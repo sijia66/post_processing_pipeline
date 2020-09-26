@@ -76,6 +76,7 @@ class PipeModule():
         # it is expecte to do these things:
         #   run the fxn and assign the output to self._output_xarray (assume there is output)
         #   assemble xarray with correct dimension labels. 
+        #   assign the xarry to self._output_xarray
 
         self._data_available = False
         raise NotImplementedError
