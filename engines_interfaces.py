@@ -26,6 +26,7 @@ arg = [params_dict[i] for i in self._params_name_ordered]
 """
 
 class PipeModule():
+    """
     mod_name = ''
     input_dims = ()
     output_dims = ()
@@ -34,7 +35,9 @@ class PipeModule():
     _params_name_KW = ()
     _params_val_ordered_dict = dict()
     _params_val_KW_dict = dict()
-    #_da_xarray = xarray()
+    _data_available = False
+    _da_xarray = xarray()
+    """
 
     def __init__(self):
         #in case we need a long time,
@@ -72,7 +75,8 @@ class PipeModule():
         # all functions will overrite this method
         # expect to assign this to output fxn to self._output_xarray
         # it is expecte to do these things:
-        #   run the fxn and assign the output to self._output_xarray (assume there is output)
+        #   run the fxn (if needed use xarray.values)
+        #   and assign the output to self._output_xarray (assume there is output)
         #   assemble xarray with correct dimension labels. 
         #   assign the xarry to self._output_xarray
 
@@ -149,7 +153,7 @@ class PipeFrame():
 
             for mod_i, mod in enumerate(self._modules):
                 #set up an instance of the class. 
-                specific_inst = 
+                #specific_inst = 
                 
                 mod.run_mod(self._module_params[mod_i])
 
