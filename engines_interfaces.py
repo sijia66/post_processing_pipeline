@@ -109,7 +109,7 @@ class PipeFrame():
         module_parameters: list of dictionaries (PipeModule.name: dictionary)
         """
         #frame type
-        self._type = frame_type
+        self._frame_type = frame_type
 
         if module is PipeModule:
             raise Exception(f'{module} should not be PipeModule')
@@ -117,12 +117,15 @@ class PipeFrame():
         if not issubclass(module, PipeModule):
             raise Exception(f'{module} should inherit PipeModule')
         
-        #oherwise, just assign the modulees
+        #oherwise, just assign the modules
         self._module = module
         self._module_params = module_parameters
 
         #process frame init settings
+        if self._
         self._frame_input_dims = self._module.input_dims
+
+
         self._frame_output_dims = self._module.output_dims
 
         #set up mod of operation default to serial
@@ -137,27 +140,36 @@ class PipeFrame():
     def _create_instances(self):
         """
         depending on the needs, will create many instances of the same  PipeModule
+        will initialize more instances depend on needs. 
         """
+        #initialize the module
+        _instance =  self._module()
+        self._instance_list = [_instance]
 
     
-    def _assign_params_to_mod(self):
+    def _assign_params_to_mod(self, frame_params):
         """
+        for now, frame_params is the same as the modu_params
         """
-        pass
+        for each_inst in self._instance_list:
+            (req_args_exist, unassigned_arg_list) = each_inst.check_ordered_args_exist(frame_params.keys())
+
+            if req_args_exist: 
+                each_inst.assign_params_value(frame_params)
+            else:
+                raise AttributeError(f'the following req params are not assigned {unassigned_list}')
+                
     
     def run_frame(self):
         """
+        #this is where a lot of optimizatio comes in 
         """
 
         if self._frame_mode == 'serial':
-
-            for mod_i, mod in enumerate(self._modules):
-                #set up an instance of the class. 
-                #specific_inst = 
-                
-                mod.run_mod(self._module_params[mod_i])
+            for each_inst in self._instance_list: each_inst.run_mod()
 
         elif self._frame_mode == 'parallel':
+            #can create a lot threads to solve this issue, eh. 
             raise NotImplementedError
 
     @classmethod
