@@ -157,8 +157,7 @@ class PipeFrame():
             if req_args_exist: 
                 each_inst.assign_params_value(frame_params)
             else:
-                raise AttributeError(f'the following req params are not assigned {unassigned_arg_list} \
-                    can assign the args by creating a dictionary and use _assign_params_to_mod')
+                raise AttributeError(f'the following req params are not assigned {unassigned_arg_list} can assign the args by creating a dictionary and use _assign_params_to_mod')
                 
     
     def run_frame(self):
@@ -232,13 +231,14 @@ TO-DO
 3. can we suggest ways to improve the pipline
 """
 class PipeLine():
-    _frames = list()
 
-    def __init__(self):
-        self.num_of_frames = 0
+    def __init__(self, frame_list = list()):
+        #check if they are all frames
+        self._frames = frame_list
+        self.num_of_frames = len(self._frames)
 
+        if self.num_of_frames > 0: self.check_frame_compat()
 
-    
     def add_frame(self, frame_to_add):
         #raise exception if the object is not a PipeFrame
         if not isinstance(frame_to_add, PipeFrame):
@@ -267,6 +267,7 @@ class PipeLine():
             first_output_dims = self._frames[i]._frame_output_dims
             second_input_dims = self._frames[i+1]._frame_input_dims
 
+            #need to return all non-matching frames
             if  not first_output_dims == second_input_dims:
                 return {'compat_result': False, 
                 'problem_frames': (self._frames[i], self._frames[i+1])
