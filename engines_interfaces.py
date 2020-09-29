@@ -122,8 +122,8 @@ class PipeFrame():
         self._module_params = module_parameters
 
         #process frame init settings
-        if self._
-        self._frame_input_dims = self._module.input_dims
+        if self._frame_type == 'proc':
+            self._frame_input_dims = self._module.input_dims
 
 
         self._frame_output_dims = self._module.output_dims
@@ -157,7 +157,8 @@ class PipeFrame():
             if req_args_exist: 
                 each_inst.assign_params_value(frame_params)
             else:
-                raise AttributeError(f'the following req params are not assigned {unassigned_list}')
+                raise AttributeError(f'the following req params are not assigned {unassigned_arg_list} \
+                    can assign the args by creating a dictionary and use _assign_params_to_mod')
                 
     
     def run_frame(self):
@@ -166,11 +167,23 @@ class PipeFrame():
         """
 
         if self._frame_mode == 'serial':
-            for each_inst in self._instance_list: each_inst.run_mod()
+            for each_inst in self._instance_list: 
+                each_inst.run_mod()
+
 
         elif self._frame_mode == 'parallel':
             #can create a lot threads to solve this issue, eh. 
             raise NotImplementedError
+
+        #grab the data by using a list comprehensin
+        self._frame_output_in_list = [each_inst.get_data_xarray() for each_inst in self._instance_list]
+
+    def get_frame_data(self):
+        """
+        just return the list of xarrays from each instance
+        """
+        return self._frame_output_in_list
+
 
     @classmethod
     def orient_dims(cls,xr_array:xr.DataArray, mat_dims):
